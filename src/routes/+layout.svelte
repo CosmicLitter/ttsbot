@@ -5,6 +5,7 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
+
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import ComfyJS, { type OnMessageFlags } from "comfy.js"
 	import { onMount, onDestroy } from "svelte"
@@ -20,12 +21,13 @@
 		connected = false;
     })
 
-	// Check if comfy is connected
+	// Verify that the bot is connected to twitch chat
 	let connected = false;
 	ComfyJS.onConnected = () => {
 		connected = true;
 	}
-
+	
+	// Track if the bot's message has a quote
 	let noQuote = false;
 
 	// Listen for the user Streamlabs for the quote
@@ -35,29 +37,33 @@
 		if( user === "Streamlabs" ) {
 			// Pull the quote out of the message
 			const extractQuote = (input: string): string | null => {
-				const match = input.match(/"([^"]+)"/);  // A regular expression that matches the text within double quotes
-				// if match is null set noQuote to true
+				// A regular expression that matches the text within double quotes
+				const match = input.match(/"([^"]+)"/);
+				
+				// if there is no quote set noQuote to true
 				if (!match) {
 					noQuote = true;
 				}
-				return match ? match[1] : null;          // Return the quote or null if a quote is not found for some reason
+				return match ? match[1] : null;
 			};
 		
 			let quote = (extractQuote(message));
-			console.log(quote)
 
-			//write the quote to the quote store
+			//If a quote is found, set the quoteStore to the quote
 			if (quote) {
 				quoteStore.set(quote);
 			}
-			// only call handleGenerateTTS if noQuote is false
-			if (!noQuote) {
-				handleGenerateTTS();
+
+			// Call the handleGenerateTTS function only if noQuote is false, otherwise reset the boolean. This logic can be cleaned up
+			if (noQuote) {
 				noQuote = false;
+			} else {
+				handleGenerateTTS();
 			}
 		}
     }
     
+	// Call the ElevenLabs API to generate the TTS
     const handleGenerateTTS = async () => {
         const text = $quoteStore;
         const voice = "21m00Tcm4TlvDq8ikWAM"
@@ -80,8 +86,6 @@
 
             const { file } = await response.json()
             
-            console.log(file)
-
 			// Create an Audio object and set its src attribute to the URL of the audio file
 			const audio = new Audio(`/public/${file}`);
 
@@ -109,36 +113,10 @@
 			</div>
 			<svelte:fragment slot="trail">
 				Connected: {connected}
-				<!-- <a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a> -->
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<!-- Page Route Content -->
-	<!-- <audio autoplay src="/public/audio/01cskq.mp3"></audio> -->
 	<div class="p-8">
-			<slot />
+		<slot />
 	</div>
 </AppShell>
