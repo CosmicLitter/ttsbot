@@ -6,7 +6,7 @@ import path from 'path'
 
 export const POST:RequestHandler = async ({ request, fetch }) => {
 
-    const {message, voice} = await request.json()
+    const {message, voice, stability, similarity} = await request.json()
 
     try {
         const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}`, {
@@ -19,8 +19,8 @@ export const POST:RequestHandler = async ({ request, fetch }) => {
             body: JSON.stringify({
                 text: message,
                 voice_settings: {
-                    stability: 0,
-                    similarity_boost: 0,
+                    stability: stability,
+                    similarity_boost: similarity,
                 },
             }),
         });
