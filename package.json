@@ -21,6 +21,7 @@
 		"@sveltejs/kit": "^1.5.0",
 		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/typography": "^0.5.9",
+		"@types/fluent-ffmpeg": "^2.1.21",
 		"@types/tmi.js": "^1.8.3",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
@@ -44,6 +45,7 @@
 	"dependencies": {
 		"comfy.js": "^1.1.16",
 		"dotenv": "^16.3.1",
+		"lucide-svelte": "^0.259.0",
 		"openai": "^3.3.0",
 		"tmi.js": "^1.8.5"
 	}

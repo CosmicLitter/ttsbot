@@ -10,6 +10,7 @@
 	import ComfyJS, { type OnMessageFlags } from "comfy.js"
 	import { onMount, onDestroy } from "svelte"
 	import { quoteStore, settingsStore } from '$lib/stores';
+	import { Zap, ZapOff } from 'lucide-svelte';
 
 	onMount(() => {
         // Specify the channel to connect to
@@ -123,10 +124,14 @@
 			</svelte:fragment>
 			<div class="btn-group rounded-sm">
 				<a href="/quote" class="btn variant-filled-surface p-2 rounded-sm"> Quote </a>
-				<button class="btn variant-filled-surface p-2 rounded-sm" disabled> Chat? </button>
+				<a href="/chat" class="btn variant-filled-surface p-2 rounded-sm"> Chat </a>
 			</div>
 			<svelte:fragment slot="trail">
-				Connected: {connected}
+				{#if connected}
+					<Zap color="green" />
+				{:else}
+					<ZapOff color="red" />
+				{/if}
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>

@@ -1,16 +1,17 @@
 <!-- <script lang="ts">
 	import type { ChatCompletionRequestMessage } from "openai";
-    import tmi from 'tmi.js'
-    // const tmi = require('tmi.js');
+    import * as tmi from 'tmi.js'
 
     // Define configuration options
     const opts = {
     identity: {
         username: 'starfieldfacts',
-        password: 'oauth:m5adngw3ca4dpmm76b29in0mpnax39'
+        password: 'oauth:kek73ch0shbf0uwy3qn3wlhaio7ji3'
     },
     channels: [
-        'starfieldfacts'
+        'starfieldfacts',
+        'out_of_mana',
+        'basghettii'
     ]
     };
 
@@ -25,6 +26,7 @@
     client.connect();
 
     // Called every time a message comes in
+    //@ts-ignore
     async function onMessageHandler (target, context, msg, self) {
         if (self) { return; } // Ignore messages from the bot
 
@@ -43,12 +45,13 @@
     }
 
     // Function called when the "dice" command is issued
-    function rollDice () {
-        const sides = 6;
-        return Math.floor(Math.random() * sides) + 1;
-    }
+    // function rollDice () {
+    //     const sides = 6;
+    //     return Math.floor(Math.random() * sides) + 1;
+    // }
 
     // Called every time the bot connects to Twitch chat
+    //@ts-ignore
     function onConnectedHandler (addr, port) {
         console.log(`* Connected to ${addr}:${port}`);
     }
@@ -58,7 +61,27 @@
     let prompt: ChatCompletionRequestMessage[] = [
         {
             role: 'system',
-            content: `Say random facts acting like Todd Howard keeping it to a short sentence or two. Todd Howard sometimes uses the phrases: "it just works", "I promise it's not fallout 76!", "we're not talking about it at this time", "a next-gen experience", "truly unique and special", "Bethesda game, you decide", "millions of players, but each having a unique experience", "you can play it however you want", "it's all about the player's freedom", "we're excited to share more details soon", "emergent gameplay", "be who you want to be", "our biggest, most ambitious project yet", and "I hope you all love it when you play it" during speech. Todd on infrequently ends his sentences with either ", fuck yea!", "Todd Howard OUT!" or nothing at all.`,
+            content: `Introducing Todd "The Mastermind" Howard! Known as the King of Video Game Teasers, Todd exudes an unparalleled level of enthusiasm for his craft that can only be described as radioactive. With an infectious smile, he sprinkles his conversations with a touch of mischief as he showcases his magnificent gaming creations to the world. Picture a mad scientist crossed with a rambunctious game wizard, constantly in pursuit of perfection and ready to surprise you at every turn. Whether he's promising innovation beyond belief or revealing jaw-dropping features, Todd's charisma radiates brighter than a nuclear explosion. Hold onto your Pip-Boys, ladies and gentlemen, because when Todd Howard is in the room, buckle up for an electrifying journey through the world of gaming!
+
+Give tweets from Todd Howard and provide facts for his next creation, but they aren't facts and seriously inaccurate, Starfield. Start each response with "Fact:" Keep each response to two or three short sentences. Select from the following list of phrases but use your own discretion when to use them. give it about a 30% chance to use ONE of them:
+It just works
+I promise, its not fallout 76!
+We're not talking about it at this time
+A next-gen experience
+truly unique and special
+Bethesda game, you decide
+Millions of players
+You can play it however you want
+It's all about the player's freedom
+We're excited to share more details soon
+Emergent gameplay
+Be who you want to be
+Our biggest, most ambitious project yet
+I hope you all love it when you play it
+See that planet? You can go to it
+Fuck yea!
+Todd Howard OUT!
+`,
         },
     ]
 
