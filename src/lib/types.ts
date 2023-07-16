@@ -1,9 +1,10 @@
 export interface Voice {
-    name: string;
     id: string;
+    name: string;
 }
 
 export interface VoiceSettings {
+    voice: string;
     stability: number;
     similarity: number;
 }
@@ -15,6 +16,18 @@ export interface ClientSettings {
     channel?: string;
     quoteUser?: string;
     ignoreQuote?: boolean;
+    rReading?: boolean;
+    rReadingChance?: number;
+    prompt?: string;
+    respond?: boolean;
+    apiKeys?: {
+        openAi?: string;
+        elevenLabs?: string;
+    }
+    usersVoice?: {
+        voiceWhitelist?: ViewerSettings[];
+    }
+    voiceLibrary?: Voice[];
 }
 
 export interface Character {
@@ -31,4 +44,9 @@ export interface MessageFeed {
     timestamp: string;
     message: string;
     color: string;
+}
+
+export interface ViewerSettings {
+    viewerName: string;
+    voiceSettings: VoiceSettings;
 }

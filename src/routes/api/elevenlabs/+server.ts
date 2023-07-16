@@ -1,12 +1,12 @@
 import type { RequestHandler } from "./$types"
-import { ELEVENLABS_API_KEY } from "$env/static/private";
+// import { ELEVENLABS_API_KEY } from "$env/static/private";
 
 import fs from 'fs'
 import path from 'path'
 
 export const POST:RequestHandler = async ({ request, fetch }) => {
 
-    const {message, voice, stability, similarity} = await request.json()
+    const {message, voice, stability, similarity, elevenLabs} = await request.json()
 
     try {
         const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}`, {
@@ -14,7 +14,7 @@ export const POST:RequestHandler = async ({ request, fetch }) => {
             headers: {
                 accept: "audio/mpeg",
                 "Content-Type": "application/json",
-                "xi-api-key": ELEVENLABS_API_KEY,
+                "xi-api-key": elevenLabs,
             },
             body: JSON.stringify({
                 text: message,
@@ -37,7 +37,7 @@ export const POST:RequestHandler = async ({ request, fetch }) => {
         // console.log(file)
 
         fs.writeFile(path.join("public", "audio", `${file}.mp3`), buffer, () => {
-            console.log("file written")
+            console.log(`file written. Filename: ${file}.mp3`)
         })
 
         return new Response(JSON.stringify({file: `audio/${file}.mp3`}))
