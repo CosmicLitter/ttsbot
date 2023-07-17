@@ -16,6 +16,7 @@
 	import * as tmi from 'tmi.js'
 	import { getVoices, handleGenerateTTS, showModalComponent } from '$lib/shared';
 
+
 	const elevenLabs = $settingsStore.apiKeys?.elevenLabs ?? '';	
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
@@ -167,6 +168,9 @@
 
 	// }
 
+
+
+
 </script>
 
 <Modal components={modalComponentRegistry}/>
@@ -183,6 +187,7 @@
 				<a href="/quote" class="btn variant-filled-surface p-2 rounded-sm"> Quote </a>
 				<a href="/chat" class="btn variant-filled-surface p-2 rounded-sm"> Chat </a>
 			</div> -->
+
 			<svelte:fragment slot="trail">
 				<div class="input-group grid-cols-[auto_1fr_auto] rounded-sm input-group-divider">
 					<span class="px-2 flex items-center">
@@ -201,8 +206,8 @@
 				{:else}
 					<ZapOff color="red" />
 				{/if} -->
-				<button class="btn {!$settingsStore.apiKeys ? 'animate-pulse' : ''}" on:click={modalSettings}>
-					{#if !$settingsStore.apiKeys}
+				<button class="btn {!$settingsStore.apiKeys || $settingsStore.apiKeys.elevenLabs === "" ? 'animate-pulse' : ''}" on:click={modalSettings}>
+					{#if !$settingsStore.apiKeys || $settingsStore.apiKeys.elevenLabs === ""}
 						<Settings size={32} color="#EAB308" />
 					{:else}
 						<Settings size={32}/>
