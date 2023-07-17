@@ -2,6 +2,8 @@ import { modalStore, type ModalSettings } from "@skeletonlabs/skeleton";
 import { settingsStore } from "./stores";
 import type { Voice, ViewerSettings } from "./types";
 
+const audioArray: HTMLAudioElement[] = [];
+
 export function showModalComponent(
 	component: string,
 	meta?: object,
@@ -87,8 +89,21 @@ export const handleGenerateTTS = async (user: ViewerSettings, message: string, e
 		// Create an Audio object and set its src attribute to the URL of the audio file
 		const audio = new Audio(`/public/${file}`);
 
-		// Play the audio
-		audio.play();
+		audioArray.push(audio);
+
+		audio.addEventListener('ended', () => {
+			const index = audioArray.indexOf(audio);
+			if (index > -1) {
+			audioArray.splice(index, 1);
+			}
+			if (audioArray.length > 0) {
+			audioArray[0].play();
+			}
+		});
+
+		if (audioArray.length === 1) {
+			audio.play();
+		}
 
 	} catch (error) {
 		console.log(error)
