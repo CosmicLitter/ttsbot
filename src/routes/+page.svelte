@@ -126,7 +126,7 @@
 		const modal: ModalSettings = {
 			type: 'confirm',
 			title: 'Please confirm',
-			body: 'Remove user from whitelist?',
+			body: `Remove ${user.viewerName} from whitelist?`,
 			response: (result: boolean) => {
 				if (result) {
 					settingsStore.update(settings => {
