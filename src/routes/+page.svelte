@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RangeSlider, SlideToggle } from "@skeletonlabs/skeleton";
+	import { RangeSlider, SlideToggle, modalStore, type ModalSettings } from "@skeletonlabs/skeleton";
 	import type { ViewerSettings, Voice } from "$lib/types";
 	import { recentViewerStore, settingsStore } from "$lib/stores";
 	import { Minus, Plus } from "lucide-svelte";
@@ -75,7 +75,6 @@
 				}
 			}
 		})
-
 	};
 
 	const updateVoice = (event: any, user: ViewerSettings) => {
@@ -107,7 +106,7 @@
 				}
 			}
 		})		
-
+		
 	}
 	
 	// console.log(voiceWhitelist)
@@ -123,27 +122,49 @@
 		}
 	}
 
-	function rReadingToggle() {
-		return () => {
-			settingsStore.update(settings => {
-				return {
-					...settings,
-					rReading
+	async function modalConfirmDelete(user: ViewerSettings) {
+		const modal: ModalSettings = {
+			type: 'confirm',
+			title: 'Please confirm',
+			body: 'Remove user from whitelist?',
+			response: (result: boolean) => {
+				if (result) {
+					settingsStore.update(settings => {
+						voiceWhitelist = (voiceWhitelist ?? []).filter((u) => u !== user);
+						return {
+							...settings,
+							usersVoice: {
+								voiceWhitelist: settings.usersVoice?.voiceWhitelist?.filter((u) => u !== user)
+							}
+						}
+					})
 				}
-			})
+			}
 		}
+		modalStore.trigger(modal)
 	}
 
-	function respondToggle() {
-		return () => {
-			settingsStore.update(settings => {
-				return {
-					...settings,
-					respond
-				}
-			})
-		}
-	}
+	// function rReadingToggle() {
+	// 	return () => {
+	// 		settingsStore.update(settings => {
+	// 			return {
+	// 				...settings,
+	// 				rReading
+	// 			}
+	// 		})
+	// 	}
+	// }
+
+	// function respondToggle() {
+	// 	return () => {
+	// 		settingsStore.update(settings => {
+	// 			return {
+	// 				...settings,
+	// 				respond
+	// 			}
+	// 		})
+	// 	}
+	// }
 
 	// const voiceSettings: VoiceSettings = {
 	// 	stability: 0.30,
@@ -190,15 +211,7 @@
 					</select>
 					
 					<!-- Remove from whitelist -->
-					<button class=" input-group-shim rounded-sm btn btn-small" on:click={() => settingsStore.update(settings => {
-						voiceWhitelist = (voiceWhitelist ?? []).filter((u) => u !== user);
-						return {
-							...settings,
-							usersVoice: {
-								voiceWhitelist: settings.usersVoice?.voiceWhitelist?.filter((u) => u !== user)
-							}
-						}
-					})}><Minus color="#e53e3e" /></button>
+					<button class=" input-group-shim rounded-sm btn btn-small" on:click={() => {modalConfirmDelete(user)}}><Minus color="#e53e3e" /></button>
 				</div>
 				<!-- Voice stability and similarity sliders -->
 				<div class="grid grid-cols-[auto_auto]">
