@@ -32,9 +32,11 @@
   	let stability = $settingsStore.stability;
   	let similarity = $settingsStore.similarity;
 	let voiceWhitelist = $settingsStore.usersVoice?.voiceWhitelist ?? [];
-	let usersVoice = $settingsStore.usersVoice;
 
-	console.log(usersVoice)
+	if (voiceWhitelist) {
+		console.log(voiceWhitelist)
+	}
+
 	
 
 
@@ -76,34 +78,35 @@
 
 	};
 
-	const updateVoice = (event: Event, user: ViewerSettings) => {
+	const updateVoice = (event: any, user: ViewerSettings) => {
 		// console.log(usersVoice)
 		// console.log('updating voice')
 		// console.log(user)
 
-		// update the settingsstore with the new user settings
+		// update voiceWhitelist for the user
+		voiceWhitelist = voiceWhitelist.map((whitelist) => {
+			if (whitelist.viewerName === user.viewerName) {
+				return {
+					...whitelist,
+					voiceSettings: {
+						...whitelist.voiceSettings,
+						[event.target!.name]: event.target!.value
+					}
+				}
+			} else {
+				return whitelist
+			}
+		})
+
+		// update settings store with the new voiceWhitelist
 		settingsStore.update(settings => {
 			return {
 				...settings,
 				usersVoice: {
-					voiceWhitelist: settings.usersVoice?.voiceWhitelist?.map(whitelist => {
-						if (whitelist.viewerName === user.viewerName) {
-							return {
-								...whitelist,
-								voiceSettings: {
-									voice: whitelist.voiceSettings.voice,
-									stability: whitelist.voiceSettings.stability,
-									similarity: whitelist.voiceSettings.similarity
-								}
-							}
-						} else {
-							return whitelist;
-						}
-					})
+					voiceWhitelist
 				}
 			}
-		})
-
+		})		
 
 	}
 	
