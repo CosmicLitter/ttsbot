@@ -98,7 +98,7 @@
     }
 
     function onPromptKeydown(event: KeyboardEvent): void {
-        if (['Enter'].includes(event.code)) {
+        if (['Enter'].includes(event.code) && !event.shiftKey) {
             event.preventDefault();
             addMessage();
         }

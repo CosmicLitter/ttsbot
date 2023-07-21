@@ -3,12 +3,12 @@
 	import type { ViewerSettings, Voice } from "$lib/types";
 	import { recentViewerStore, settingsStore } from "$lib/stores";
 	import { Minus, Plus } from "lucide-svelte";
-	import { handleGenerateTTS } from "$lib/shared";
+	// import { handleGenerateTTS } from "$lib/shared";
 
-	let channel = $settingsStore.channel;
-	let quoteUser = $settingsStore.quoteUser;
+	// let channel = $settingsStore.channel;
+	// let quoteUser = $settingsStore.quoteUser;
 	let ignoreQuote = $settingsStore.ignoreQuote ?? false;
-	let message = "";
+	// let message = "";
 	let newWhitelistUser: string = "";
 	
 
@@ -22,15 +22,15 @@
 		$settingsStore.rReadingChance = 0.1;
 	}
 
-	let rReadingChance = $settingsStore.rReadingChance;
-	let rReading = $settingsStore.rReading;
-	let prompt = $settingsStore.prompt;
-	let respond = $settingsStore.respond;
+	// let rReadingChance = $settingsStore.rReadingChance;
+	// let rReading = $settingsStore.rReading;
+	// let prompt = $settingsStore.prompt;
+	// let respond = $settingsStore.respond;
 
 
-	let voice = $settingsStore.voice;
-  	let stability = $settingsStore.stability;
-  	let similarity = $settingsStore.similarity;
+	// let voice = $settingsStore.voice;
+  	// let stability = $settingsStore.stability;
+  	// let similarity = $settingsStore.similarity;
 	let voiceWhitelist = $settingsStore.usersVoice?.voiceWhitelist ?? [];
 
 	if (voiceWhitelist) {

@@ -9,6 +9,7 @@ export function showModalComponent(
 	meta?: object,
 	response?: ((r: any) => void) | undefined
 ) {
+	console.log(component)
 	const modal: ModalSettings = {
 		type: 'component',
 		component,

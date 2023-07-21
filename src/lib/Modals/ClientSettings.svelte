@@ -57,12 +57,12 @@
 		return subscriptionLimit;
 	}
 
-	if (elevenLabsApiKey) {
-		async function updateSubscriptionLimit() {
-			subscriptionLimit = await getSubscriptionDetails();
-		}
-		updateSubscriptionLimit();
-	}
+	// if (elevenLabsApiKey) {
+	// 	async function updateSubscriptionLimit() {
+	// 		subscriptionLimit = await getSubscriptionDetails();
+	// 	}
+	// 	updateSubscriptionLimit();
+	// }
 </script>
 
 <div class="card p-8 rounded-sm flex flex-col w-[420px]">

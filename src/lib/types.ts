@@ -32,8 +32,8 @@ export interface ClientSettings {
 
 export interface Character {
     id: number;
-    avatar: number;
     name: string;
+    prompt: string;
 }
 
 export interface MessageFeed {

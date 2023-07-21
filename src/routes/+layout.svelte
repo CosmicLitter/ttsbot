@@ -6,25 +6,22 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 
-	import { AppShell, AppBar, Modal, modalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Modal } from '@skeletonlabs/skeleton';
+	import type { ModalComponent } from '@skeletonlabs/skeleton';
 	import ClientSettings from '$lib/Modals/ClientSettings.svelte';
-	import ComfyJS, { type OnMessageFlags } from "comfy.js"
+	import NPCSettings from '$lib/Modals/ClientSettings.svelte';
 	import { onMount, onDestroy } from "svelte"
-	import { quoteStore, recentViewerStore, settingsStore } from '$lib/stores';
+	import {  recentViewerStore, settingsStore } from '$lib/stores';
 	import { Settings, Zap, ZapOff } from 'lucide-svelte';
 	import * as tmi from 'tmi.js'
-	import { getVoices, handleGenerateTTS, showModalComponent } from '$lib/shared';
+	import { handleGenerateTTS, showModalComponent } from '$lib/shared';
 
 
 	const elevenLabs = $settingsStore.apiKeys?.elevenLabs ?? '';	
 
 	const modalComponentRegistry: Record<string, ModalComponent> = {
 		ClientSettings: { ref: ClientSettings },
-	}
-
-	async function modalSettings() {
-		showModalComponent('ClientSettings')
+		NPCSettings: { ref: NPCSettings }
 	}
 
 	let channel = $settingsStore?.channel;
@@ -183,10 +180,10 @@
 			<svelte:fragment slot="lead">
 				<strong class="text-xl uppercase"><a href="/">QuoteBot</a></strong>
 			</svelte:fragment>
-			<!-- <div class="btn-group rounded-sm">
-				<a href="/quote" class="btn variant-filled-surface p-2 rounded-sm"> Quote </a>
+			<div class="btn-group rounded-sm">
+				<!-- <a href="/quote" class="btn variant-filled-surface p-2 rounded-sm"> Quote </a> -->
 				<a href="/chat" class="btn variant-filled-surface p-2 rounded-sm"> Chat </a>
-			</div> -->
+			</div>
 
 			<svelte:fragment slot="trail">
 				<div class="input-group grid-cols-[auto_1fr_auto] rounded-sm input-group-divider">
@@ -196,7 +193,6 @@
 						{:else}
 							<ZapOff color="red" size={16} />
 						{/if}
-						<!-- <ZapOff color="red" size={16} /> -->
 					</span>
 					<input class="input rounded-sm" type="text" spellcheck="false" placeholder="Channel to Connect to..." bind:value={channel}/>
 					<button class="btn variant-filled-surface rounded-sm" on:click={connectChannel}>Connect</button>
@@ -206,7 +202,7 @@
 				{:else}
 					<ZapOff color="red" />
 				{/if} -->
-				<button class="btn {!$settingsStore.apiKeys || $settingsStore.apiKeys.elevenLabs === "" ? 'animate-pulse' : ''}" on:click={modalSettings}>
+				<button class="btn {!$settingsStore.apiKeys || $settingsStore.apiKeys.elevenLabs === "" ? 'animate-pulse' : ''}" on:click={()=> showModalComponent('ClientSettings')}>
 					{#if !$settingsStore.apiKeys || $settingsStore.apiKeys.elevenLabs === ""}
 						<Settings size={32} color="#EAB308" />
 					{:else}
